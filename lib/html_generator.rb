@@ -8,9 +8,8 @@ class HTMLGenerator < ERBGenerator
 
   def section(text)
     template = "<section><%= awesome_text %></section>"
-    options_hash = {:locals => {:awesome_text => text}}
+    options_hash = {:locals => {:awesome_text => text}, layout: @layout}
     erb template, options_hash
-    wrap(erb template, options_hash)
   end
 
   def unordered_list(items)
@@ -22,9 +21,8 @@ class HTMLGenerator < ERBGenerator
     <% end%>
   </ul>
     TEMPLATE
-    options_hash = {:locals => {:html_items => items}}
+    options_hash = {:locals => {:html_items => items}, layout: @layout}
     erb(template, options_hash)
-    wrap(erb template, options_hash)
   end
 
   def button(item, item2 = "")
@@ -36,17 +34,8 @@ class HTMLGenerator < ERBGenerator
 <% end %>
 TEMPLATE
     template = template.split("\n").join
-    options_hash = {:locals => {:button_text => item, :button_text2 => item2}}
+    options_hash = {:locals => {:button_text => item, :button_text2 => item2}, layout: @layout}
     erb(template, options_hash)
-    wrap(erb template, options_hash)
-  end
-
-  def wrap(text)
-    if @layout != nil
-      @layout.gsub("<%= yield %>", text)
-    else
-      text
-    end
   end
 
 end
